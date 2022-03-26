@@ -91,7 +91,4 @@ G----https://www.digitalocean.com/community/questions/kubernetes-deployment-with
 
 G--http://two.eksctl.tk/
 G--http://two.eksctl.tk/
-
-
-
-
+eksctl delete cluster --name <jmscluster>(cluster name) this is in cluster_creat.yml
