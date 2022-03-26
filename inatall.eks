@@ -1,0 +1,95 @@
+G--  https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html
+$ curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+sudo mv /tmp/eksctl /usr/local/bin
+eksctl version
+G--  https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
+$curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl
+$ openssl sha1 -sha256 kubectl
+$ sudo mv /tmp/eksctl /usr/local/bin
+$ chmod +x ./kubectl
+$ mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
+$ echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
+$ kubectl version --short --client
+$   alias k="kubectl"
+
+
+First, create cluster.yaml file:
+
+
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: basic-cluster
+  region: eu-north-1
+
+nodeGroups:
+  - name: ng-1
+    instanceType: m5.large
+    desiredCapacity: 10
+    volumeSize: 80
+    ssh:
+      allow: true # will use ~/.ssh/id_rsa.pub as the default ssh key
+  - name: ng-2
+    instanceType: m5.xlarge
+    desiredCapacity: 2
+    volumeSize: 100
+    ssh:
+      publicKeyPath: ~/.ssh/ec2_id_rsa.pub
+     ------------------------
+     $ eksctl create cluster -f cluster.yaml
+      $  vi rs_ser.yml
+      apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: hello-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world                 # Pod labels
+    spec:
+      containers:
+      - name: hello-ctr
+        image: ybmsr/nodejsapp:v1
+        ports:
+        - containerPort: 8080
+
+
+      $ vi loadbalancer_svc.yaml
+      
+      apiVersion: v1
+kind: Service
+metadata:
+  name: hello-loadbalancer
+  labels:
+    app: hello-world
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 30123
+    protocol: TCP
+  selector:
+    app: hello-world                              # Label selector
+
+$ k get po
+$k get rs
+$ k get svc
+take url and access  "http://ae086f04898dc401c9ad9b0f3e959bad-30808108.ap-south-1.elb.amazonaws.com:8080/"
+-------------------------------------------------------------------------------------------------------
+
+
+
+
+G--http://two.eksctl.tk/
+G--http://two.eksctl.tk/
+
+
+
+
