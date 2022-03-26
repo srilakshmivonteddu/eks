@@ -83,6 +83,8 @@ $k get rs
 $ k get svc
 take url and access  "http://ae086f04898dc401c9ad9b0f3e959bad-30808108.ap-south-1.elb.amazonaws.com:8080/"
 -------------------------------------------------------------------------------------------------------
+G--https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-on-digitalocean-kubernetes-using-helm
+G----https://www.digitalocean.com/community/questions/kubernetes-deployment-with-external-load-balancer-zero-downtime-rollouts
 
 
 
